@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试下D3.js的用法</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+<!-- <p>{{ data.data }}</p> -->
+<svg width="960" height="600"></svg>
+<script>
+    var svg =d3.select('svg');
+    var data = [{"x": 11, "y": 0.10490343740436958},
+        {"x": 28, "y": 0.3691223254997972},
+        {"x": 38, "y": 0.019568769142431663},
+        {"x": 44, "y": 0.8598360641140654},
+        {"x": 60, "y": 0.28919006368017086}];
+
+    const render = data => {
+        const xValue = d => +d.x,
+            yValue = d => +d.y;
+        const width = +svg.attr('width'),
+            height = +svg.attr('height');
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(data, xValue())])
+            .range([0, width]);
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, yValue())])
+            .range([0, width]);
+        svg.selectAll('circle')
+            .data(data)
+            .enter().append('circle')
+            .attr('r', d => yValue(d) * 10)
+            .attr('cx', d=>xScale(xValue(d)))
+            .attr('cy', d=>xScale(xValue(d)))
+    };
+    render(data);
+</script>
+
+</body>
+</html>
